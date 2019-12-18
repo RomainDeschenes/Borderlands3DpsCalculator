@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Borderlands 3 DPS Calculator</string>
+    <string name="weapon_stats_title">Entrez les stats de l\'arme</string>
+    <string name="damage_field">Dégâts</string>
+    <string name="reload_time">Temps de recharge</string>
+    <string name="fire_rate">Cadence de tir</string>
+    <string name="magazine_size">Taille du chargeur</string>
+    <string name="time_to_empty_magazine">Temps pour vider le chargeur (en secondes)</string>
+    <string name="damage_per_second">Dégâts par seconde (rechargement inclus)</string>
+</resources>

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Borderlands 3 DPS Calculator</string>
+    <string name="weapon_stats_title">Enter your weapon\'s stats</string>
+    <string name="damage_field">Damage</string>
+    <string name="reload_time">Reload time</string>
+    <string name="fire_rate">Fire rate</string>
+    <string name="magazine_size">Magazine size</string>
+    <string name="time_to_empty_magazine">Time to empty magazine (in seconds)</string>
+    <string name="damage_per_second">Damage per second (reload included)</string>
 </resources>
