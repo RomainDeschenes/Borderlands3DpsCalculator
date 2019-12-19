@@ -1,4 +1,4 @@
-package com.example.borderlands3dpscalculator;
+package com.romaindeschenes.borderlands3dpscalculator;
 
 import org.junit.Test;
 

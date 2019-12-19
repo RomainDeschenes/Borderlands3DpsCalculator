@@ -4,15 +4,199 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/weapon_stats_title" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/damage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:labelFor="@id/editTextDamage"
+                android:text="@string/damage" />
+
+            <EditText
+                android:id="@+id/editTextDamage"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:nextFocusRight="@id/editTextReloadTime"
+                android:nextFocusDown="@id/editTextReloadTime"
+                android:nextFocusForward="@id/editTextReloadTime"
+                android:selectAllOnFocus="true" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/Reload"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:labelFor="@id/editTextReloadTime"
+                android:text="@string/reload_time" />
+
+            <EditText
+                android:id="@+id/editTextReloadTime"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal"
+                android:nextFocusRight="@id/editTextFireRate"
+                android:nextFocusDown="@id/editTextFireRate"
+                android:selectAllOnFocus="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/fireRate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:labelFor="@id/editTextFireRate"
+                android:text="@string/fire_rate" />
+
+            <EditText
+                android:id="@+id/editTextFireRate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal"
+                android:nextFocusLeft="@id/editTextFireRate"
+                android:nextFocusRight="@id/editTextMagazineSize"
+                android:nextFocusUp="@id/editTextFireRate"
+                android:nextFocusDown="@id/editTextMagazineSize"
+                android:nextFocusForward="@id/editTextMagazineSize"
+                android:selectAllOnFocus="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/magazineSize"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:labelFor="@id/editTextMagazineSize"
+                android:text="@string/magazine_size" />
+
+            <EditText
+                android:id="@+id/editTextMagazineSize"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:nextFocusLeft="@id/editTextMagazineSize"
+                android:nextFocusUp="@id/editTextMagazineSize"
+                android:selectAllOnFocus="true" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/autoScanButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/auto_mode" />
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="365dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_begin="366dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="205dp" />
+
+    <TableLayout
+        android:layout_width="409dp"
+        android:layout_height="363dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/time_to_empty_magazine" />
+
+            <TextView
+                android:id="@+id/textViewEmptyMagazine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/damage_per_second" />
+
+            <TextView
+                android:id="@+id/textViewDamagePerSecond"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+        </TableRow>
+
+    </TableLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
