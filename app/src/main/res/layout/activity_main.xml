@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:labelFor="@id/editTextDamage"
-                android:text="@string/damage_field" />
+                android:text="@string/damage" />
 
             <EditText
                 android:id="@+id/editTextDamage"
@@ -130,6 +130,12 @@
                 android:nextFocusUp="@id/editTextMagazineSize"
                 android:selectAllOnFocus="true" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/autoScanButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/auto_mode" />
 
     </LinearLayout>
 

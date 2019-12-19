@@ -1,11 +1,17 @@
 package com.romaindeschenes.borderlands3dpscalculator.models;
 
-public class Weapon {
+import java.io.Serializable;
+
+public class Weapon implements Serializable {
 
     /**
      * Period over which damage is calculated
      */
     public static final int DAMAGE_PERIOD = 60;
+
+    public Weapon() {
+
+    }
 
     public Weapon(int damage, int accuracy, int handling, float reloadTime, float fireRate, int magazineSize) {
         mDamage = damage;
@@ -69,7 +75,10 @@ public class Weapon {
     }
 
     public float getTimeToEmptyMagazine() {
-        return mMagazineSize / mFireRate;
+        if (mFireRate <= 0) {
+            return 0;
+        }
+        return Math.round((mMagazineSize / mFireRate) * 100f) / 100f;
     }
 
     /**
@@ -77,6 +86,9 @@ public class Weapon {
      */
     public int getDamagePerSecond () {
         float fireAndReloadTime = getTimeToEmptyMagazine() + mReloadTime;
+        if (getTimeToEmptyMagazine() <= 0 || mReloadTime <= 0) {
+            return 0;
+        }
         float numberOfFullCycles = DAMAGE_PERIOD / fireAndReloadTime;
 
         // Get numbers after the decimal point : unfinishedCycle
