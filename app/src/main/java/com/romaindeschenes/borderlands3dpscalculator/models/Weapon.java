@@ -2,6 +2,8 @@ package com.romaindeschenes.borderlands3dpscalculator.models;
 
 import java.io.Serializable;
 
+import androidx.annotation.NonNull;
+
 public class Weapon implements Serializable {
 
     /**
@@ -11,6 +13,13 @@ public class Weapon implements Serializable {
 
     public Weapon() {
 
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "damage " + mDamage + ", accuracy " + mAccuracy + ", handling "
+                + mHandling + ", reloadTime " + mReloadTime + ", fireRate" + mFireRate + ", magazineSize" + mMagazineSize;
     }
 
     public Weapon(int damage, int accuracy, int handling, float reloadTime, float fireRate, int magazineSize) {

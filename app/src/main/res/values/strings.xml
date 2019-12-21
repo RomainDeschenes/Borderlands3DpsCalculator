@@ -5,8 +5,10 @@
     <string name="accuracy">Accuracy</string>
     <string name="handling">Handling</string>
     <string name="reload_time">Reload time</string>
+    <string name="repair_time">Repair time</string>
     <string name="fire_rate">Fire rate</string>
     <string name="magazine_size">Magazine size</string>
+    <string name="shots_to_break">Shots to break</string>
     <string name="time_to_empty_magazine">Time to empty magazine (in seconds)</string>
     <string name="damage_per_second">Damage per second (reload included)</string>
     <string name="auto_mode">Auto scan</string>

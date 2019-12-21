@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,10 +50,13 @@ public class CameraActivity extends AppCompatActivity {
     private String mAccuracyString;
     private String mHandlingString;
     private String mFireRateString;
+    private String mRepairTimeString;
+    private String mShotsToBreakString;
     private String mMagazineSizeString;
     private String mReloadTimeString;
 
-    private static final String NUMBER_PATTERN = "([0-9]+\\.*[0-9]*)";
+    // matches 12, 3.5, 3x12
+    private static final String NUMBER_PATTERN = "([0-9]+(\\.|x)?[0-9]*)";
     private static final String NORMALIZE_STRING = "[^\\p{ASCII}]";
 
     private Pattern mPattern;
@@ -78,6 +82,8 @@ public class CameraActivity extends AppCompatActivity {
         mHandlingString = getNormalizedString(getResources().getString(R.string.handling).toUpperCase());
         mReloadTimeString = getNormalizedString(getResources().getString(R.string.reload_time).toUpperCase());
         mFireRateString = getNormalizedString(getResources().getString(R.string.fire_rate).toUpperCase());
+        mRepairTimeString = getNormalizedString(getResources().getString(R.string.repair_time).toUpperCase());
+        mShotsToBreakString = getNormalizedString(getResources().getString(R.string.shots_to_break).toUpperCase());;
 
         mPickWeaponButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +127,7 @@ public class CameraActivity extends AppCompatActivity {
                     .setFacing(CameraSource.CAMERA_FACING_BACK)
                     .setRequestedPreviewSize(1280, 1024)
                     .setAutoFocusEnabled(true)
-                    .setRequestedFps(2.0f)
+                    .setRequestedFps(30f)
                     .build();
 
             /**
@@ -178,17 +184,11 @@ public class CameraActivity extends AppCompatActivity {
                         mDamageTextView.post(new Runnable() {
                             @Override
                             public void run() {
-                                StringBuilder stringBuilder = new StringBuilder();
                                 for(int i=0;i<items.size();i++){
                                     TextBlock item = items.valueAt(i);
-                                    stringBuilder.append(item.getValue());
-                                    stringBuilder.append("\n");
 
-                                    if (item.getValue().contains(mDamageString)
-                                            && item.getValue().contains(mFireRateString)
-                                            && item.getValue().contains(mReloadTimeString)
-                                            && item.getValue().contains(mMagazineSizeString)
-                                            && i+1 < items.size()) {
+                                    // Labels first, values after
+                                    if (containsLabels(item.getValue()) && i+1 < items.size()) {
                                         List<String> allMatches = new ArrayList<String>();
                                         Matcher m = mPattern.matcher(items.valueAt(i+1).getValue());
                                         while (m.find()) {
@@ -197,16 +197,21 @@ public class CameraActivity extends AppCompatActivity {
 
                                         // It is all the numbers in the tooltip
                                         if(allMatches.size() == 6) {
-                                            mCurrentWeapon = new Weapon(
-                                                Integer.parseInt(allMatches.get(0)),
-                                                Integer.parseInt(allMatches.get(1)),
-                                                Integer.parseInt(allMatches.get(2)),
-                                                Float.parseFloat(allMatches.get(3)),
-                                                Float.parseFloat(allMatches.get(4)),
-                                                Integer.parseInt(allMatches.get(5))
-                                            );
-
+                                            mCurrentWeapon = buildWeapon(allMatches);
                                             updateWeaponTextViews();
+                                        }
+                                    } else {
+                                        // Values first, labels after
+                                        List<String> allMatches = new ArrayList<String>();
+                                        Matcher m = mPattern.matcher(item.getValue());
+                                        while (m.find()) {
+                                            allMatches.add(m.group());
+                                        }
+                                        if(allMatches.size() == 6 && i+1 < items.size()) {
+                                            if (containsLabels(items.valueAt(i+1).getValue())) {
+                                                mCurrentWeapon = buildWeapon(allMatches);
+                                                updateWeaponTextViews();
+                                            }
                                         }
                                     }
                                 }
@@ -216,5 +221,40 @@ public class CameraActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private boolean containsLabels(String value) {
+        return value.contains(mDamageString)
+                && value.contains(mFireRateString)
+                && (value.contains(mReloadTimeString) || value.contains(mRepairTimeString))
+                && (value.contains(mMagazineSizeString) || value.contains(mShotsToBreakString));
+    }
+
+    private Weapon buildWeapon(List<String> weaponsStats) {
+        if (weaponsStats.size() < 6) {
+            return null;
+        }
+
+        ListIterator<String> iterator = weaponsStats.listIterator();
+
+        // Convert values like 3x12 to their result
+        while(iterator.hasNext()) {
+            String next = iterator.next();
+            if (next.contains("x")) {
+                String[] values = next.split("x");
+                if (values.length == 2) {
+                    iterator.set(String.valueOf(Integer.parseInt(values[0]) * Integer.parseInt(values[1])));
+                }
+            }
+        }
+
+        return new Weapon(
+                Integer.parseInt(weaponsStats.get(0)),
+                Integer.parseInt(weaponsStats.get(1)),
+                Integer.parseInt(weaponsStats.get(2)),
+                Float.parseFloat(weaponsStats.get(3)),
+                Float.parseFloat(weaponsStats.get(4)),
+                Integer.parseInt(weaponsStats.get(5))
+        );
     }
 }

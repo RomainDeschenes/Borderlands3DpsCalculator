@@ -85,13 +85,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
-                mWeapon = (Weapon)data.getSerializableExtra("weapon");
-                if (mWeapon != null) {
-                    mEditTextDamage.setText(String.valueOf(mWeapon.getDamage()));
-                    mEditTextReloadTime.setText(String.valueOf(mWeapon.getReloadTime()));
-                    mEditTextFireRate.setText(String.valueOf(mWeapon.getFireRate()));
-                    mEditTextMagazineSize.setText(String.valueOf(mWeapon.getMagazineSize()));
-                    updateTextViews();
+                Weapon resultWeapon = (Weapon)data.getSerializableExtra("weapon");
+                if (resultWeapon != null) {
+                    mEditTextDamage.setText(String.valueOf(resultWeapon.getDamage()));
+                    mEditTextReloadTime.setText(String.valueOf(resultWeapon.getReloadTime()));
+                    mEditTextFireRate.setText(String.valueOf(resultWeapon.getFireRate()));
+                    mEditTextMagazineSize.setText(String.valueOf(resultWeapon.getMagazineSize()));
                 }
             }
         }

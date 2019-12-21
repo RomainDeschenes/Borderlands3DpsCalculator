@@ -6,8 +6,10 @@
     <string name="accuracy">Précision</string>
     <string name="handling">Maniement</string>
     <string name="reload_time">Temps de recharge</string>
+    <string name="repair_time">Réparation</string>
     <string name="fire_rate">Cadence de tir</string>
     <string name="magazine_size">Taille du chargeur</string>
+    <string name="shots_to_break">Tirs avant casse</string>
     <string name="time_to_empty_magazine">Temps pour vider le chargeur (en secondes)</string>
     <string name="damage_per_second">Dégâts par seconde (rechargement inclus)</string>
     <string name="auto_mode">Scan automatique</string>
