@@ -46,18 +46,8 @@ public class CameraActivity extends AppCompatActivity {
     private SurfaceView mCameraView;
     private CameraSource mCameraSource;
 
-    private String mDamageString;
-    private String mAccuracyString;
-    private String mHandlingString;
-    private String mFireRateString;
-    private String mRepairTimeString;
-    private String mShotsToBreakString;
-    private String mMagazineSizeString;
-    private String mReloadTimeString;
-
     // matches 12, 3.5, 3x12
     private static final String NUMBER_PATTERN = "([0-9]+(\\.|x)?[0-9]*)";
-    private static final String NORMALIZE_STRING = "[^\\p{ASCII}]";
 
     private Pattern mPattern;
     private Weapon mCurrentWeapon;
@@ -75,15 +65,6 @@ public class CameraActivity extends AppCompatActivity {
         mFireRateTextView = findViewById(R.id.fireRateTextView);
         mMagazineSizeTextView = findViewById(R.id.magazineSizeTextview);
         mPickWeaponButton = findViewById(R.id.pick_weapon_button);
-        mMagazineSizeString = getNormalizedString(getResources().getString(R.string.magazine_size).toUpperCase());
-
-        mDamageString = getNormalizedString(getResources().getString(R.string.damage).toUpperCase());
-        mAccuracyString = getNormalizedString(getResources().getString(R.string.accuracy).toUpperCase());
-        mHandlingString = getNormalizedString(getResources().getString(R.string.handling).toUpperCase());
-        mReloadTimeString = getNormalizedString(getResources().getString(R.string.reload_time).toUpperCase());
-        mFireRateString = getNormalizedString(getResources().getString(R.string.fire_rate).toUpperCase());
-        mRepairTimeString = getNormalizedString(getResources().getString(R.string.repair_time).toUpperCase());
-        mShotsToBreakString = getNormalizedString(getResources().getString(R.string.shots_to_break).toUpperCase());;
 
         mPickWeaponButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,10 +79,6 @@ public class CameraActivity extends AppCompatActivity {
         mPattern = Pattern.compile(NUMBER_PATTERN);
         startCameraSource();
 
-    }
-
-    private String getNormalizedString(String s) {
-        return Normalizer.normalize(s, Normalizer.Form.NFD).replaceAll(NORMALIZE_STRING, "");
     }
 
     private void updateWeaponTextViews() {
@@ -121,8 +98,6 @@ public class CameraActivity extends AppCompatActivity {
         if (!textRecognizer.isOperational()) {
             Log.w("Camera", "Detector dependencies not loaded yet");
         } else {
-
-            //Initialize camerasource to use high resolution and set Autofocus on.
             mCameraSource = new CameraSource.Builder(getApplicationContext(), textRecognizer)
                     .setFacing(CameraSource.CAMERA_FACING_BACK)
                     .setRequestedPreviewSize(1280, 1024)
@@ -186,33 +161,14 @@ public class CameraActivity extends AppCompatActivity {
                             public void run() {
                                 for(int i=0;i<items.size();i++){
                                     TextBlock item = items.valueAt(i);
-
-                                    // Labels first, values after
-                                    if (containsLabels(item.getValue()) && i+1 < items.size()) {
-                                        List<String> allMatches = new ArrayList<String>();
-                                        Matcher m = mPattern.matcher(items.valueAt(i+1).getValue());
-                                        while (m.find()) {
-                                            allMatches.add(m.group());
-                                        }
-
-                                        // It is all the numbers in the tooltip
-                                        if(allMatches.size() == 6) {
-                                            mCurrentWeapon = buildWeapon(allMatches);
-                                            updateWeaponTextViews();
-                                        }
-                                    } else {
-                                        // Values first, labels after
-                                        List<String> allMatches = new ArrayList<String>();
-                                        Matcher m = mPattern.matcher(item.getValue());
-                                        while (m.find()) {
-                                            allMatches.add(m.group());
-                                        }
-                                        if(allMatches.size() == 6 && i+1 < items.size()) {
-                                            if (containsLabels(items.valueAt(i+1).getValue())) {
-                                                mCurrentWeapon = buildWeapon(allMatches);
-                                                updateWeaponTextViews();
-                                            }
-                                        }
+                                    List<String> allMatches = new ArrayList<String>();
+                                    Matcher m = mPattern.matcher(item.getValue());
+                                    while (m.find()) {
+                                        allMatches.add(m.group());
+                                    }
+                                    if(allMatches.size() == 6) {
+                                        mCurrentWeapon = buildWeapon(allMatches);
+                                        updateWeaponTextViews();
                                     }
                                 }
                             }
@@ -221,13 +177,6 @@ public class CameraActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    private boolean containsLabels(String value) {
-        return value.contains(mDamageString)
-                && value.contains(mFireRateString)
-                && (value.contains(mReloadTimeString) || value.contains(mRepairTimeString))
-                && (value.contains(mMagazineSizeString) || value.contains(mShotsToBreakString));
     }
 
     private Weapon buildWeapon(List<String> weaponsStats) {

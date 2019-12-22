@@ -112,6 +112,20 @@ public class Weapon implements Serializable {
         return (int)((numberOfFullCycles + unfinishedCycle) * getDamagePerMagazine()) / DAMAGE_PERIOD;
     }
 
+    public int getTimeSpentReloading() {
+        if (mReloadTime + getTimeToEmptyMagazine() == 0) {
+            return 0;
+        }
+        return Math.round(mReloadTime * 100 / (mReloadTime + getTimeToEmptyMagazine()));
+    }
+
+    public int getTimeSpentShooting() {
+        if (mReloadTime + getTimeToEmptyMagazine() == 0) {
+            return 0;
+        }
+        return Math.round(getTimeToEmptyMagazine() * 100 / (mReloadTime + getTimeToEmptyMagazine()));
+    }
+
     private int mDamage;
     private int mAccuracy;
     private int mHandling;

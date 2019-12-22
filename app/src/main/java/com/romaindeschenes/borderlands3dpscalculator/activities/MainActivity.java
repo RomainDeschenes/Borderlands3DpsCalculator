@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
     TextView mTextViewTimeToEmptyMagazine;
     TextView mTextViewDamagePerSecond;
+    TextView mTextViewDamagePerMagazine;
+    TextView mTextViewTimeSpentShooting;
+    TextView mTextViewTimeSpentReloading;
 
     Button mButton;
 
@@ -34,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         mEditTextDamage = findViewById(R.id.editTextDamage);
         mEditTextReloadTime = findViewById(R.id.editTextReloadTime);
         mEditTextFireRate = findViewById(R.id.editTextFireRate);
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
         mTextViewTimeToEmptyMagazine = findViewById(R.id.textViewEmptyMagazine);
         mTextViewDamagePerSecond = findViewById(R.id.textViewDamagePerSecond);
+        mTextViewDamagePerMagazine = findViewById(R.id.textViewDamagePerMagazine);
+        mTextViewTimeSpentShooting = findViewById(R.id.textViewTimeSpentShooting);
+        mTextViewTimeSpentReloading = findViewById(R.id.textViewTimeSpentReloading);
 
         mButton = findViewById(R.id.autoScanButton);
 
@@ -66,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 updateTextViews();
             }
         };
+
         mEditTextDamage.addTextChangedListener(textWatcher);
         mEditTextReloadTime.addTextChangedListener(textWatcher);
         mEditTextFireRate.addTextChangedListener(textWatcher);
@@ -108,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
             mWeapon.setReloadTime(reloadTime);
             mWeapon.setFireRate(fireRate);
             mWeapon.setMagazineSize(magazineSize);
+
         } catch (NumberFormatException e) {
         }
     }
@@ -115,5 +122,8 @@ public class MainActivity extends AppCompatActivity {
     protected void updateTextViews() {
         mTextViewDamagePerSecond.setText(String.valueOf(mWeapon.getDamagePerSecond()));
         mTextViewTimeToEmptyMagazine.setText(String.valueOf(mWeapon.getTimeToEmptyMagazine()));
+        mTextViewDamagePerMagazine.setText(String.valueOf(mWeapon.getDamagePerMagazine()));
+        mTextViewTimeSpentReloading.setText(String.valueOf(mWeapon.getTimeSpentReloading()));
+        mTextViewTimeSpentShooting.setText(String.valueOf(mWeapon.getTimeSpentShooting()));
     }
 }
