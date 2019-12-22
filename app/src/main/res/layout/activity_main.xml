@@ -163,20 +163,24 @@
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="@string/time_to_empty_magazine" />
+                android:labelFor="@id/textViewDamagePerSecond"
+                android:text="@string/damage_per_second" />
 
             <TextView
-                android:id="@+id/textViewEmptyMagazine"
+                android:id="@+id/textViewDamagePerSecond"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="2"
+                android:textSize="18sp"
+                app:autoSizeTextType="uniform" />
+
         </TableRow>
 
         <TableRow
@@ -184,17 +188,81 @@
             android:layout_height="match_parent" >
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="@string/damage_per_second" />
+                android:labelFor="@id/textViewEmptyMagazine"
+                android:text="@string/time_to_empty_magazine" />
 
             <TextView
-                android:id="@+id/textViewDamagePerSecond"
+                android:id="@+id/textViewEmptyMagazine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="2"
+                android:textSize="18sp"
+                app:autoSizeTextType="uniform" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:labelFor="@id/textViewDamagePerMagazine"
+                android:text="@string/damage_per_magazine" />
+
+            <TextView
+                android:id="@+id/textViewDamagePerMagazine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textSize="18sp"
+                app:autoSizeTextType="uniform" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/time_spent_shooting" />
+
+            <TextView
+                android:id="@+id/textViewTimeSpentShooting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textSize="18sp"
+                app:autoSizeTextType="uniform" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/time_spent_reloading" />
+
+            <TextView
+                android:id="@+id/textViewTimeSpentReloading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:textSize="18sp"
+                app:autoSizeTextType="uniform" />
         </TableRow>
 
     </TableLayout>

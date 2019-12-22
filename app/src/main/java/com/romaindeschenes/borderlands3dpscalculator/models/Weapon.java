@@ -2,6 +2,8 @@ package com.romaindeschenes.borderlands3dpscalculator.models;
 
 import java.io.Serializable;
 
+import androidx.annotation.NonNull;
+
 public class Weapon implements Serializable {
 
     /**
@@ -11,6 +13,13 @@ public class Weapon implements Serializable {
 
     public Weapon() {
 
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "damage " + mDamage + ", accuracy " + mAccuracy + ", handling "
+                + mHandling + ", reloadTime " + mReloadTime + ", fireRate" + mFireRate + ", magazineSize" + mMagazineSize;
     }
 
     public Weapon(int damage, int accuracy, int handling, float reloadTime, float fireRate, int magazineSize) {
@@ -101,6 +110,20 @@ public class Weapon implements Serializable {
         double unfinishedCycle = Math.min(unfinishedCyclePercentage, cycleReloadStart);
 
         return (int)((numberOfFullCycles + unfinishedCycle) * getDamagePerMagazine()) / DAMAGE_PERIOD;
+    }
+
+    public int getTimeSpentReloading() {
+        if (mReloadTime + getTimeToEmptyMagazine() == 0) {
+            return 0;
+        }
+        return Math.round(mReloadTime * 100 / (mReloadTime + getTimeToEmptyMagazine()));
+    }
+
+    public int getTimeSpentShooting() {
+        if (mReloadTime + getTimeToEmptyMagazine() == 0) {
+            return 0;
+        }
+        return Math.round(getTimeToEmptyMagazine() * 100 / (mReloadTime + getTimeToEmptyMagazine()));
     }
 
     private int mDamage;

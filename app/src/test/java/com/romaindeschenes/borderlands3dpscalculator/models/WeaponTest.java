@@ -23,4 +23,13 @@ public class WeaponTest {
     public void getDamagePerSecond() {
         assertEquals(83, wpn.getDamagePerSecond());
     }
+
+    @Test
+    public void getTimeToEmptyMagazine() { assertEquals(10f, wpn.getTimeToEmptyMagazine(), 0f); }
+
+    @Test
+    public void getTimeSpentReloading() { assertEquals(17, wpn.getTimeSpentReloading());}
+
+    @Test
+    public void getTimeSpentShooting() { assertEquals(83, wpn.getTimeSpentShooting()); }
 }
