@@ -47,7 +47,7 @@ public class CameraActivity extends AppCompatActivity {
     private CameraSource mCameraSource;
 
     // matches 12, 3.5, 3x12
-    private static final String NUMBER_PATTERN = "([0-9]+(\\.|x)?[0-9]*)";
+    private static final String NUMBER_PATTERN = "([0-9]+(\\.|x)?[0-9]*[^\"])";
 
     private Pattern mPattern;
     private Weapon mCurrentWeapon;
@@ -161,10 +161,17 @@ public class CameraActivity extends AppCompatActivity {
                             public void run() {
                                 for(int i=0;i<items.size();i++){
                                     TextBlock item = items.valueAt(i);
+                                    Log.d("Detection", item.getValue());
                                     List<String> allMatches = new ArrayList<String>();
                                     Matcher m = mPattern.matcher(item.getValue());
+                                   /* try {
+                                        Log.d("Detection", String.valueOf(m.end()));
+                                    } catch(IllegalStateException e){
+                                        ;
+                                    }*/
                                     while (m.find()) {
                                         allMatches.add(m.group());
+                                        //Log.d("Detection", String.valueOf(m.end()));
                                     }
                                     if(allMatches.size() == 6) {
                                         mCurrentWeapon = buildWeapon(allMatches);
