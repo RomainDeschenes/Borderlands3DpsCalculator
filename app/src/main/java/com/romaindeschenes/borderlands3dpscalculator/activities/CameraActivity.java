@@ -199,18 +199,18 @@ public class CameraActivity extends AppCompatActivity {
             if (next.contains("x")) {
                 String[] values = next.split("x");
                 if (values.length == 2) {
-                    iterator.set(String.valueOf(Integer.parseInt(values[0]) * Integer.parseInt(values[1])));
+                    iterator.set(String.valueOf(Integer.parseInt(values[0]) * Integer.parseInt((values[1]).trim())));
                 }
             }
         }
 
         return new Weapon(
-                Integer.parseInt(weaponsStats.get(0)),
-                Integer.parseInt(weaponsStats.get(1)),
-                Integer.parseInt(weaponsStats.get(2)),
-                Float.parseFloat(weaponsStats.get(3)),
-                Float.parseFloat(weaponsStats.get(4)),
-                Integer.parseInt(weaponsStats.get(5))
+                Integer.parseInt((weaponsStats.get(0)).replaceAll("\\D", "")),
+                Integer.parseInt((weaponsStats.get(1)).replaceAll("\\D", "")),
+                Integer.parseInt((weaponsStats.get(2)).replaceAll("\\D", "")),
+                Float.parseFloat((weaponsStats.get(3)).replaceAll("\\D", "")),
+                Float.parseFloat((weaponsStats.get(4)).replaceAll("\\D", "")),
+                Integer.parseInt((weaponsStats.get(5)).replaceAll("\\D", ""))
         );
     }
 }
