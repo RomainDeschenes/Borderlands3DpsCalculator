@@ -205,12 +205,12 @@ public class CameraActivity extends AppCompatActivity {
         }
 
         return new Weapon(
-                Integer.parseInt((weaponsStats.get(0)).replaceAll("\\D", "")),
-                Integer.parseInt((weaponsStats.get(1)).replaceAll("\\D", "")),
-                Integer.parseInt((weaponsStats.get(2)).replaceAll("\\D", "")),
-                Float.parseFloat((weaponsStats.get(3)).replaceAll("\\D", "")),
-                Float.parseFloat((weaponsStats.get(4)).replaceAll("\\D", "")),
-                Integer.parseInt((weaponsStats.get(5)).replaceAll("\\D", ""))
+                Integer.parseInt((weaponsStats.get(0)).replaceAll("[^\\d.]", "")),
+                Integer.parseInt((weaponsStats.get(1)).replaceAll("[^\\d.]", "")),
+                Integer.parseInt((weaponsStats.get(2)).replaceAll("[^\\d.]", "")),
+                Float.parseFloat((weaponsStats.get(3)).replaceAll("[^\\d.]", "")),
+                Float.parseFloat((weaponsStats.get(4)).replaceAll("[^\\d.]", "")),
+                Integer.parseInt((weaponsStats.get(5)).replaceAll("[^\\d.]", ""))
         );
     }
 }
