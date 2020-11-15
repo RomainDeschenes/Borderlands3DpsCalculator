@@ -153,29 +153,29 @@ public class CameraActivity extends AppCompatActivity {
                  * */
                 @Override
                 public void receiveDetections(Detector.Detections<TextBlock> detections) {
-                    final SparseArray<TextBlock> items = detections.getDetectedItems();
+                    final SparseArray<TextBlock> items = detections.getDetectedItems(); //creates SparseArray from detected Textblocks
                     if (items.size() != 0 ){
 
                         mDamageTextView.post(new Runnable() {
                             @Override
                             public void run() {
-                                for(int i=0;i<items.size();i++){
-                                    TextBlock item = items.valueAt(i);
+                                for(int i=0;i<items.size();i++){    //for every value in items
+                                    TextBlock item = items.valueAt(i);  //current element (item) is equal to element at i
                                     Log.d("Detection", item.getValue());
-                                    List<String> allMatches = new ArrayList<String>();
-                                    Matcher m = mPattern.matcher(item.getValue());
+                                    List<String> allMatches = new ArrayList<String>();  //initializes a list of strings to hold pattern matches
+                                    Matcher m = mPattern.matcher(item.getValue());  //creates a Matcher that attempts to match contents contained in item to regex
                                    /* try {
                                         Log.d("Detection", String.valueOf(m.end()));
                                     } catch(IllegalStateException e){
                                         ;
                                     }*/
                                     while (m.find()) {
-                                        allMatches.add(m.group());
-                                        //Log.d("Detection", String.valueOf(m.end()));
+                                        allMatches.add(m.group());  //for every match found previously with Matcher m, add the match to allMatches
+                                        Log.d("Match", allMatches.get(allMatches.size()-1));    //log each match by recording the value at the end of the allMatches list
                                     }
                                     if(allMatches.size() == 6) {
-                                        mCurrentWeapon = buildWeapon(allMatches);
-                                        updateWeaponTextViews();
+                                        mCurrentWeapon = buildWeapon(allMatches);   //if allMatches has only six elements, then build mCurrentWeapon by passing in the list of matches
+                                        updateWeaponTextViews();    //update app to display stats in real time
                                     }
                                 }
                             }
