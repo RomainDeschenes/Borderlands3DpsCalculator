@@ -1,10 +1,7 @@
 # Borderlands3WeaponDpsCalculator
 An Android App for Borderlands 3 weapons DPS calculation
 
-A Weapon DPS Calculator I made for myself.
-
-Here is the APK download link for the last version : http://www.droidbin.com/p1dsn7b0hb1qlfv6jralmrhu9l3
-It is not directly available from the Play Store because it costs money to do so.
+A Weapon DPS Calculator I forked from https://github.com/RomainDeschenes/Borderlands3DpsCalculator
 
 When you try to use auto scan for the first time it will ask permission and you will get a black screen where the camera should be, just back out and press the auto scan button again.
 
