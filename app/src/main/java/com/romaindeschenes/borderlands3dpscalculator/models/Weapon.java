@@ -22,12 +22,20 @@ public class Weapon implements Serializable {
                 + mHandling + ", reloadTime " + mReloadTime + ", fireRate" + mFireRate + ", magazineSize" + mMagazineSize;
     }
 
-    public Weapon(int damage, int accuracy, int handling, float reloadTime, float fireRate, int magazineSize) {
+    public Weapon(int damage, float accuracy, int handling, float reloadTime, float fireRate, int magazineSize) {
         mDamage = damage;
         mAccuracy = accuracy;
         mHandling = handling;
         mReloadTime = reloadTime;
         mFireRate = fireRate;
+        mMagazineSize = magazineSize;
+    }
+
+    public Weapon(int damage, float accuracy, float fireRate, float reloadTime, int magazineSize) {
+        mDamage = damage;
+        mAccuracy = accuracy;
+        mFireRate = fireRate;
+        mReloadTime = reloadTime;
         mMagazineSize = magazineSize;
     }
 
@@ -39,11 +47,9 @@ public class Weapon implements Serializable {
         this.mDamage = damage;
     }
 
-    public int getAccuracy() {
-        return mAccuracy;
-    }
+    public float getAccuracy() { return mAccuracy; }
 
-    public void setAccuracy(int accuracy) {
+    public void setAccuracy(float accuracy) {
         this.mAccuracy = accuracy;
     }
 
@@ -127,7 +133,7 @@ public class Weapon implements Serializable {
     }
 
     private int mDamage;
-    private int mAccuracy;
+    private float mAccuracy;
     private int mHandling;
     private float mReloadTime;
     private float mFireRate;

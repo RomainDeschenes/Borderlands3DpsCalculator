@@ -24,7 +24,6 @@ import com.romaindeschenes.borderlands3dpscalculator.R;
 import com.romaindeschenes.borderlands3dpscalculator.models.Weapon;
 
 import java.io.IOException;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -34,6 +33,7 @@ import java.util.regex.Pattern;
 public class CameraActivity extends AppCompatActivity {
 
     private static final int REQUEST_CAMERA = 0;
+    private int scan_count = 0;
 
     private TextView mDamageTextView;
     private TextView mAccuracyTextView;
@@ -173,10 +173,7 @@ public class CameraActivity extends AppCompatActivity {
                                         allMatches.add(m.group());  //for every match found previously with Matcher m, add the match to allMatches
                                         Log.d("Match", allMatches.get(allMatches.size()-1));    //log each match by recording the value at the end of the allMatches list
                                     }
-                                    if(allMatches.size() == 6) {
-                                        mCurrentWeapon = buildWeapon(allMatches);   //if allMatches has only six elements, then build mCurrentWeapon by passing in the list of matches
-                                        updateWeaponTextViews();    //update app to display stats in real time
-                                    }
+                                   handleMatches(allMatches);   //function to handle match logic
                                 }
                             }
                         });
@@ -187,7 +184,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private Weapon buildWeapon(List<String> weaponsStats) {
-        if (weaponsStats.size() < 6) {
+        if (weaponsStats.size() < 5) {
             return null;
         }
 
@@ -204,13 +201,83 @@ public class CameraActivity extends AppCompatActivity {
             }
         }
 
-        return new Weapon(
-                Integer.parseInt((weaponsStats.get(0)).replaceAll("[^\\d.]", "")),
-                Integer.parseInt((weaponsStats.get(1)).replaceAll("[^\\d.]", "")),
-                Integer.parseInt((weaponsStats.get(2)).replaceAll("[^\\d.]", "")),
-                Float.parseFloat((weaponsStats.get(3)).replaceAll("[^\\d.]", "")),
-                Float.parseFloat((weaponsStats.get(4)).replaceAll("[^\\d.]", "")),
-                Integer.parseInt((weaponsStats.get(5)).replaceAll("[^\\d.]", ""))
-        );
+        if (weaponsStats.size() == 6) {
+            return new Weapon(
+                    Integer.parseInt((weaponsStats.get(0)).replaceAll("[^\\d.]", "")),  //damage
+                    Float.parseFloat((weaponsStats.get(1)).replaceAll("[^\\d.]", "")),  //accuracy
+                    Integer.parseInt((weaponsStats.get(2)).replaceAll("[^\\d.]", "")),  //handling
+                    Float.parseFloat((weaponsStats.get(3)).replaceAll("[^\\d.]", "")),  //reload time
+                    Float.parseFloat((weaponsStats.get(4)).replaceAll("[^\\d.]", "")),  //fire rate
+                    Integer.parseInt((weaponsStats.get(5)).replaceAll("[^\\d.]", ""))   //magazine size
+            );
+        } else {
+            return new Weapon(
+                    Integer.parseInt((weaponsStats.get(0)).replaceAll("[^\\d.]", "")),  //damage
+                    Float.parseFloat((weaponsStats.get(1)).replaceAll("[^\\d.]", "")),  //accuracy
+                    Float.parseFloat((weaponsStats.get(2)).replaceAll("[^\\d.]", "")),  //fire rate
+                    Float.parseFloat((weaponsStats.get(3)).replaceAll("[^\\d.]", "")),  //reload "speed"
+                    Integer.parseInt((weaponsStats.get(4)).replaceAll("[^\\d.]", ""))   //magazine size
+            );
+        }
+
+    }
+
+    private void handleMatches(List allMatches) {
+        if (scan_count == 5){   //performs following only once every 6 times run() is executed in order to avoid premature matching using five entries, thereby giving the program a chance to try to match with 6 entries
+            if(allMatches.size() == 6) {
+                 if (validMatches(allMatches)){ //checks if the entries for damage, handling, and magazine size are integers
+                     mCurrentWeapon = buildWeapon(allMatches);   //if allMatches has only six elements, then build mCurrentWeapon by passing in the list of matches
+                     updateWeaponTextViews();    //update app to display stats in real time
+                 }
+            } else if (allMatches.size() == 5) {
+                if (validMatches(allMatches)) { //checks if the entries for damage and magazine size are integers
+                    mCurrentWeapon = buildWeapon(allMatches);   //if allMatches has five elements, then build mCurrentWeapon by passing in the list of matches
+                    updateWeaponTextViews();    //update app to display stats in real time
+                }
+            } else {
+                Log.d("allMatches size", String.valueOf(allMatches.size()));
+            }
+            scan_count = 0; //resets scan_count
+        } else {
+            scan_count++;   //increments scan_count; exits function after
+        }
+    }
+
+    private static boolean isInteger(String s) {
+        return isInteger(s,10); //calls overload of self that takes the string and radix
+    }
+
+    private static boolean isInteger(String s, int radix) { //function that iterates over string to make sure that it is an integer (or two integers separated by 'x')
+        if(s.isEmpty()) return false;
+        for(int i = 0; i < s.length(); i++) {   //iterates over string
+            if(i == 0 && s.charAt(i) == '-') {  //if a hyphen (negative) is the first character, checks if the string has a length of one and returns false if it does.  Allows for negative input.  Unnecessary for this program
+                if(s.length() == 1) return false;
+                else continue;
+            }
+            if(s.charAt(i) != 'x'){ //checks if the character encountered is not 'x'.  If not 'x', checks if character is valid for given base (base 10) numbering system.  Returns false if not a valid digit
+                if(Character.digit(s.charAt(i),radix) < 0) return false;
+            } else {
+                if(i == s.length()-1 || i == 0) return false;   //checks if the 'x' that was encountered is the last character in the string or is at the beginning.  If either of these are true, returns false
+                else continue;
+            }
+        }
+        return true;
+    }
+
+    private static boolean validMatches(List allMatches) {  //checks whether certain values are integers. if any are not, returns false, which causes the program to not attempt to construct a weapon from the data and throw an error
+        if (allMatches.size() == 6) {
+            boolean damage_is_int = isInteger((String.valueOf(allMatches.get(0)).replaceAll("[^\\dx.]", "")));
+            boolean handling_is_int = isInteger((String.valueOf(allMatches.get(2)).replaceAll("[^\\d.]", "")));
+            boolean magazine_size_is_int = isInteger((String.valueOf(allMatches.get(5)).replaceAll("[^\\d.]", "")));
+            if (damage_is_int && handling_is_int && magazine_size_is_int) {
+                return true;
+            } else return false;
+        } else if (allMatches.size() == 5){
+            boolean damage_is_int = isInteger((String.valueOf(allMatches.get(0)).replaceAll("[^\\dx.]", "")));
+            boolean magazine_size_is_int = isInteger((String.valueOf(allMatches.get(4)).replaceAll("[^\\d.]", "")));
+            if (damage_is_int && magazine_size_is_int) {
+                return true;
+            } else return false;
+        } else return false;
     }
 }
