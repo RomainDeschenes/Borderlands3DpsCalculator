@@ -173,7 +173,19 @@ public class CameraActivity extends AppCompatActivity {
                                         allMatches.add(m.group());  //for every match found previously with Matcher m, add the match to allMatches
                                         Log.d("Match", allMatches.get(allMatches.size()-1));    //log each match by recording the value at the end of the allMatches list
                                     }
-                                   handleMatches(allMatches);   //function to handle match logic
+                                    if(allMatches.size() == 6) {
+                                        if (validMatches(allMatches)){ //checks if the entries for damage, handling, and magazine size are integers
+                                            mCurrentWeapon = buildWeapon(allMatches);   //if allMatches has only six elements, then build mCurrentWeapon by passing in the list of matches
+                                            updateWeaponTextViews();    //update app to display stats in real time
+                                        }
+                                    } else if (allMatches.size() == 5) {
+                                        if (validMatches(allMatches)) { //checks if the entries for damage and magazine size are integers
+                                            mCurrentWeapon = buildWeapon(allMatches);   //if allMatches has five elements, then build mCurrentWeapon by passing in the list of matches
+                                            updateWeaponTextViews();    //update app to display stats in real time
+                                        }
+                                    } else {
+                                        Log.d("allMatches size", String.valueOf(allMatches.size()));
+                                    }
                                 }
                             }
                         });
@@ -202,7 +214,7 @@ public class CameraActivity extends AppCompatActivity {
         }
 
         if (weaponsStats.size() == 6) {
-            return new Weapon(
+            return new Weapon(  //TODO: Look into making accuracy for BL3 an integer again
                     Integer.parseInt((weaponsStats.get(0)).replaceAll("[^\\d.]", "")),  //damage
                     Float.parseFloat((weaponsStats.get(1)).replaceAll("[^\\d.]", "")),  //accuracy
                     Integer.parseInt((weaponsStats.get(2)).replaceAll("[^\\d.]", "")),  //handling
@@ -222,27 +234,6 @@ public class CameraActivity extends AppCompatActivity {
 
     }
 
-    private void handleMatches(List allMatches) {
-        if (scan_count == 5){   //performs following only once every 6 times run() is executed in order to avoid premature matching using five entries, thereby giving the program a chance to try to match with 6 entries
-            if(allMatches.size() == 6) {
-                 if (validMatches(allMatches)){ //checks if the entries for damage, handling, and magazine size are integers
-                     mCurrentWeapon = buildWeapon(allMatches);   //if allMatches has only six elements, then build mCurrentWeapon by passing in the list of matches
-                     updateWeaponTextViews();    //update app to display stats in real time
-                 }
-            } else if (allMatches.size() == 5) {
-                if (validMatches(allMatches)) { //checks if the entries for damage and magazine size are integers
-                    mCurrentWeapon = buildWeapon(allMatches);   //if allMatches has five elements, then build mCurrentWeapon by passing in the list of matches
-                    updateWeaponTextViews();    //update app to display stats in real time
-                }
-            } else {
-                Log.d("allMatches size", String.valueOf(allMatches.size()));
-            }
-            scan_count = 0; //resets scan_count
-        } else {
-            scan_count++;   //increments scan_count; exits function after
-        }
-    }
-
     private static boolean isInteger(String s) {
         return isInteger(s,10); //calls overload of self that takes the string and radix
     }
@@ -250,10 +241,10 @@ public class CameraActivity extends AppCompatActivity {
     private static boolean isInteger(String s, int radix) { //function that iterates over string to make sure that it is an integer (or two integers separated by 'x')
         if(s.isEmpty()) return false;
         for(int i = 0; i < s.length(); i++) {   //iterates over string
-            if(i == 0 && s.charAt(i) == '-') {  //if a hyphen (negative) is the first character, checks if the string has a length of one and returns false if it does.  Allows for negative input.  Unnecessary for this program
+            /*if(i == 0 && s.charAt(i) == '-') {  //if a hyphen (negative) is the first character, checks if the string has a length of one and returns false if it does.  Allows for negative input.  Unnecessary for this program
                 if(s.length() == 1) return false;
                 else continue;
-            }
+            }*/
             if(s.charAt(i) != 'x'){ //checks if the character encountered is not 'x'.  If not 'x', checks if character is valid for given base (base 10) numbering system.  Returns false if not a valid digit
                 if(Character.digit(s.charAt(i),radix) < 0) return false;
             } else {
@@ -267,9 +258,10 @@ public class CameraActivity extends AppCompatActivity {
     private static boolean validMatches(List allMatches) {  //checks whether certain values are integers. if any are not, returns false, which causes the program to not attempt to construct a weapon from the data and throw an error
         if (allMatches.size() == 6) {
             boolean damage_is_int = isInteger((String.valueOf(allMatches.get(0)).replaceAll("[^\\dx.]", "")));
+            boolean accuracy_is_int = isInteger((String.valueOf(allMatches.get(1)).replaceAll("[^\\d.]","")));  //accuracy is represented as an integer (whole-number percent sign) in BL3, so check for that
             boolean handling_is_int = isInteger((String.valueOf(allMatches.get(2)).replaceAll("[^\\d.]", "")));
             boolean magazine_size_is_int = isInteger((String.valueOf(allMatches.get(5)).replaceAll("[^\\d.]", "")));
-            if (damage_is_int && handling_is_int && magazine_size_is_int) {
+            if (damage_is_int && accuracy_is_int && handling_is_int && magazine_size_is_int) {
                 return true;
             } else return false;
         } else if (allMatches.size() == 5){
