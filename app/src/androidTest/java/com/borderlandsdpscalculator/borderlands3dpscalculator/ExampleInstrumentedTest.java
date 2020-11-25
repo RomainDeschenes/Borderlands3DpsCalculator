@@ -1,4 +1,4 @@
-package com.romaindeschenes.borderlands3dpscalculator;
+package com.borderlandsdpscalculator.borderlands3dpscalculator;
 
 import android.content.Context;
 

@@ -1,4 +1,4 @@
-package com.romaindeschenes.borderlands3dpscalculator.activities;
+package com.borderlandsdpscalculator.borderlands3dpscalculator.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -20,8 +20,8 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
-import com.romaindeschenes.borderlands3dpscalculator.R;
-import com.romaindeschenes.borderlands3dpscalculator.models.Weapon;
+import com.borderlandsdpscalculator.borderlands3dpscalculator.R;
+import com.borderlandsdpscalculator.borderlands3dpscalculator.models.Weapon;
 
 import java.io.IOException;
 import java.util.ArrayList;

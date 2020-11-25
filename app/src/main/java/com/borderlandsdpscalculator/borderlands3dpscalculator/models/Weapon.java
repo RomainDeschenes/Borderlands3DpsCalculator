@@ -1,4 +1,4 @@
-package com.romaindeschenes.borderlands3dpscalculator.models;
+package com.borderlandsdpscalculator.borderlands3dpscalculator.models;
 
 import java.io.Serializable;
 

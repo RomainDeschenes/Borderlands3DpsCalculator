@@ -1,4 +1,4 @@
-package com.romaindeschenes.borderlands3dpscalculator.activities;
+package com.borderlandsdpscalculator.borderlands3dpscalculator.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.romaindeschenes.borderlands3dpscalculator.R;
-import com.romaindeschenes.borderlands3dpscalculator.models.Weapon;
+import com.borderlandsdpscalculator.borderlands3dpscalculator.R;
+import com.borderlandsdpscalculator.borderlands3dpscalculator.models.Weapon;
 
 public class MainActivity extends AppCompatActivity {
 
