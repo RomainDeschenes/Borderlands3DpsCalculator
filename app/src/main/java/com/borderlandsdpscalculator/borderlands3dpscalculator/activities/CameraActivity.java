@@ -47,7 +47,7 @@ public class CameraActivity extends AppCompatActivity {
     private CameraSource mCameraSource;
 
     // matches 12, 3.5, 3x12
-    private static final String NUMBER_PATTERN = "([0-9]+(\\.|x)?[0-9]*[^\"])";
+    private static final String NUMBER_PATTERN = "([0-9]+([.x])?[0-9]*[^\"])";
 
     private Pattern mPattern;
     private Weapon mCurrentWeapon;
@@ -162,7 +162,7 @@ public class CameraActivity extends AppCompatActivity {
                                 for(int i=0;i<items.size();i++){    //for every value in items
                                     TextBlock item = items.valueAt(i);  //current element (item) is equal to element at i
                                     Log.d("Detection", item.getValue());
-                                    List<String> allMatches = new ArrayList<String>();  //initializes a list of strings to hold pattern matches
+                                    List<String> allMatches = new ArrayList<>();  //initializes a list of strings to hold pattern matches
                                     Matcher m = mPattern.matcher(item.getValue());  //creates a Matcher that attempts to match contents contained in item to regex
                                    /* try {
                                         Log.d("Detection", String.valueOf(m.end()));
@@ -249,27 +249,22 @@ public class CameraActivity extends AppCompatActivity {
                 if(Character.digit(s.charAt(i),radix) < 0) return false;
             } else {
                 if(i == s.length()-1 || i == 0) return false;   //checks if the 'x' that was encountered is the last character in the string or is at the beginning.  If either of these are true, returns false
-                else continue;
             }
         }
         return true;
     }
 
-    private static boolean validMatches(List allMatches) {  //checks whether certain values are integers. if any are not, returns false, which causes the program to not attempt to construct a weapon from the data and throw an error
+    private static boolean validMatches(List<String> allMatches) {  //checks whether certain values are integers. if any are not, returns false, which causes the program to not attempt to construct a weapon from the data and throw an error
         if (allMatches.size() == 6) {
             boolean damage_is_int = isInteger((String.valueOf(allMatches.get(0)).replaceAll("[^\\dx.]", "")));
             boolean accuracy_is_int = isInteger((String.valueOf(allMatches.get(1)).replaceAll("[^\\d.]","")));  //accuracy is represented as an integer (whole-number percent sign) in BL3, so check for that
             boolean handling_is_int = isInteger((String.valueOf(allMatches.get(2)).replaceAll("[^\\d.]", "")));
             boolean magazine_size_is_int = isInteger((String.valueOf(allMatches.get(5)).replaceAll("[^\\d.]", "")));
-            if (damage_is_int && accuracy_is_int && handling_is_int && magazine_size_is_int) {
-                return true;
-            } else return false;
+            return damage_is_int && accuracy_is_int && handling_is_int && magazine_size_is_int;
         } else if (allMatches.size() == 5){
             boolean damage_is_int = isInteger((String.valueOf(allMatches.get(0)).replaceAll("[^\\dx.]", "")));
             boolean magazine_size_is_int = isInteger((String.valueOf(allMatches.get(4)).replaceAll("[^\\d.]", "")));
-            if (damage_is_int && magazine_size_is_int) {
-                return true;
-            } else return false;
+            return damage_is_int && magazine_size_is_int;
         } else return false;
     }
 }

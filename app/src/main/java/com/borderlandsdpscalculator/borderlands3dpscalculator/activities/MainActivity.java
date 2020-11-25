@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
             mWeapon.setMagazineSize(magazineSize);
 
         } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
     }
 
