@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     TextView mTextViewDamagePerMagazine;
     TextView mTextViewTimeSpentShooting;
     TextView mTextViewTimeSpentReloading;
+    TextView mTextViewDPSSustained;
 
     Button mButton;
 
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mEditTextFireRate = findViewById(R.id.editTextFireRate);
         mEditTextMagazineSize = findViewById(R.id.editTextMagazineSize);
 
+        mTextViewDPSSustained = findViewById(R.id.textViewDamagePerSecondSustained);
         mTextViewTimeToEmptyMagazine = findViewById(R.id.textViewEmptyMagazine);
         mTextViewDamagePerSecond = findViewById(R.id.textViewDamagePerSecond);
         mTextViewDamagePerMagazine = findViewById(R.id.textViewDamagePerMagazine);
@@ -121,6 +123,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void updateTextViews() {
+        double dpsSustained = Math.round(mWeapon.getDPSSustained() * 100.0) / 100.0;
+        mTextViewDPSSustained.setText(String.valueOf(dpsSustained));
         mTextViewDamagePerSecond.setText(String.valueOf(mWeapon.getDamagePerSecond()));
         mTextViewTimeToEmptyMagazine.setText(String.valueOf(mWeapon.getTimeToEmptyMagazine()));
         mTextViewDamagePerMagazine.setText(String.valueOf(mWeapon.getDamagePerMagazine()));

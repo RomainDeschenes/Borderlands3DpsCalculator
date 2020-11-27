@@ -17,4 +17,5 @@
     <string name="time_spent_reloading">Temps passé à recharger (en %)</string>
     <string name="auto_mode">Scan automatique</string>
     <string name="pick_weapon">Choisir cette arme</string>
+    <string name="damage_per_second_sustained">Dégâts par seconde (rechargement inclus)</string>
 </resources>

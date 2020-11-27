@@ -16,4 +16,5 @@
     <string name="time_spent_reloading">Percentage of time spent reloading</string>
     <string name="auto_mode">Auto scan</string>
     <string name="pick_weapon">Pick this weapon</string>
+    <string name="damage_per_second_sustained">Damage per second sustained</string>
 </resources>

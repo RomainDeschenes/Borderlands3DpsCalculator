@@ -132,6 +132,10 @@ public class Weapon implements Serializable {
         return Math.round(getTimeToEmptyMagazine() * 100 / (mReloadTime + getTimeToEmptyMagazine()));
     }
 
+    public float getDPSSustained() {
+        return mDamage * mMagazineSize / (mMagazineSize / mFireRate + mReloadTime);
+    }
+
     private int mDamage;
     private float mAccuracy;
     private int mHandling;
