@@ -124,8 +124,9 @@ public class MainActivity extends AppCompatActivity {
 
     protected void updateTextViews() {
         double dpsSustained = Math.round(mWeapon.getDPSSustained() * 100.0) / 100.0;
+        double dps = Math.round(mWeapon.getDamagePerSecond() * 100.0) / 100.0;
         mTextViewDPSSustained.setText(String.valueOf(dpsSustained));
-        mTextViewDamagePerSecond.setText(String.valueOf(mWeapon.getDamagePerSecond()));
+        mTextViewDamagePerSecond.setText(String.valueOf(dps));
         mTextViewTimeToEmptyMagazine.setText(String.valueOf(mWeapon.getTimeToEmptyMagazine()));
         mTextViewDamagePerMagazine.setText(String.valueOf(mWeapon.getDamagePerMagazine()));
         mTextViewTimeSpentReloading.setText(String.valueOf(mWeapon.getTimeSpentReloading()));

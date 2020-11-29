@@ -97,25 +97,10 @@ public class Weapon implements Serializable {
     }
 
     /**
-     * @return damage per second (over a 60 second period)
+     * @return damage per second
      */
-    public int getDamagePerSecond () {
-        float fireAndReloadTime = getTimeToEmptyMagazine() + mReloadTime;
-        if (getTimeToEmptyMagazine() <= 0 || mReloadTime <= 0) {
-            return 0;
-        }
-        float numberOfFullCycles = DAMAGE_PERIOD / fireAndReloadTime;
-
-        // Get numbers after the decimal point : unfinishedCycle
-        double unfinishedCyclePercentage = numberOfFullCycles - Math.floor(numberOfFullCycles);
-
-        // At which point in the cycle the reloading starts
-        double cycleReloadStart = getTimeToEmptyMagazine() / fireAndReloadTime;
-
-        // Min value because we do not want the time spent reloading at the end to matter
-        double unfinishedCycle = Math.min(unfinishedCyclePercentage, cycleReloadStart);
-
-        return (int)((numberOfFullCycles + unfinishedCycle) * getDamagePerMagazine()) / DAMAGE_PERIOD;
+    public float getDamagePerSecond () {
+       return mDamage * mFireRate;
     }
 
     public int getTimeSpentReloading() {

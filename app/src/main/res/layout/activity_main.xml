@@ -170,7 +170,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:labelFor="@id/textViewDamagePerSecond"
+                android:labelFor="@id/textViewDamagePerSecondSustained"
                 android:text="@string/damage_per_second_sustained" />
 
             <TextView
