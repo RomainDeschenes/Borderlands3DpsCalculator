@@ -33,7 +33,8 @@ import java.util.regex.Pattern;
 public class CameraActivity extends AppCompatActivity {
 
     private static final int REQUEST_CAMERA = 0;
-    private int scan_count = 0;
+    //private int scan_count = 0;
+    private static boolean accuracyIsPercent = false;
 
     private TextView mDamageTextView;
     private TextView mAccuracyTextView;
@@ -94,6 +95,7 @@ public class CameraActivity extends AppCompatActivity {
 
         //Create the TextRecognizer
         final TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
+        accuracyIsPercent = false;
 
         if (!textRecognizer.isOperational()) {
             Log.w("Camera", "Detector dependencies not loaded yet");
@@ -173,7 +175,7 @@ public class CameraActivity extends AppCompatActivity {
                                         allMatches.add(m.group());  //for every match found previously with Matcher m, add the match to allMatches
                                         //Log.d("Match", allMatches.get(allMatches.size()-1));    //log each match by recording the value at the end of the allMatches list
                                     }
-                                    if(allMatches.size() == 6) {
+                                    if (allMatches.size() == 6) {
                                         for (int j = 0; j < 6; j++) {
                                             Log.d("Match", allMatches.get(j));
                                         }
@@ -182,7 +184,7 @@ public class CameraActivity extends AppCompatActivity {
                                             updateWeaponTextViews();    //update app to display stats in real time
                                             Log.d("Match Success", String.valueOf(allMatches.size()));
                                         }
-                                    } else if (allMatches.size() == 5) {
+                                    } else if ((allMatches.size() == 5) && !accuracyIsPercent) {
                                         for (int j = 0; j < 5; j++) {
                                             Log.d("Match", allMatches.get(j));
                                         }
@@ -262,15 +264,20 @@ public class CameraActivity extends AppCompatActivity {
         return true;
     }
 
+
     private static boolean validMatches(List<String> allMatches) {  //checks whether certain values are integers. if any are not, returns false, which causes the program to not attempt to construct a weapon from the data and throw an error
         if (allMatches.size() == 6) {
             boolean damage_is_int = isInteger((String.valueOf(allMatches.get(0)).replaceAll("[^\\dx.]", "")));
-            boolean accuracy_is_int = isInteger((String.valueOf(allMatches.get(1)).replaceAll("[^\\d.]","")));  //accuracy is represented as an integer (whole-number percent sign) in BL3, so check for that
+            boolean accuracy_is_int = isInteger((String.valueOf(allMatches.get(1)).replaceAll("[^\\d.]", "")));  //accuracy is represented as an integer (whole-number percent sign) in BL3, so check for that
+            accuracyIsPercent = String.valueOf(allMatches.get(1)).contains("%");
+            Log.d("Accuracy", "Is accuracy percent: " + accuracyIsPercent);
             boolean handling_is_int = isInteger((String.valueOf(allMatches.get(2)).replaceAll("[^\\d.]", "")));
             boolean magazine_size_is_int = isInteger((String.valueOf(allMatches.get(5)).replaceAll("[^\\d.]", "")));
             return damage_is_int && accuracy_is_int && handling_is_int && magazine_size_is_int;
-        } else if (allMatches.size() == 5){
+        } else if (allMatches.size() == 5) {
             boolean damage_is_int = isInteger((String.valueOf(allMatches.get(0)).replaceAll("[^\\dx.]", "")));
+            //accuracyIsPercent = String.valueOf(allMatches.get(1)).contains("%");
+            Log.d("Accuracy", "Is accuracy percent: " + accuracyIsPercent);
             boolean magazine_size_is_int = isInteger((String.valueOf(allMatches.get(4)).replaceAll("[^\\d.]", "")));
             return damage_is_int && magazine_size_is_int;
         } else return false;
