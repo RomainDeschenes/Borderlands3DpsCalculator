@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateWeapon() {
-        try {
+        if (!mEditTextDamage.getText().toString().equals("") && !mEditTextReloadTime.getText().toString().equals("") && !mEditTextFireRate.getText().toString().equals("") && !mEditTextMagazineSize.getText().toString().equals("")) {
             int damage = Integer.parseInt(mEditTextDamage.getText().toString());
             float reloadTime = Float.parseFloat(mEditTextReloadTime.getText().toString());
             float fireRate = Float.parseFloat(mEditTextFireRate.getText().toString());
@@ -116,9 +116,6 @@ public class MainActivity extends AppCompatActivity {
             mWeapon.setReloadTime(reloadTime);
             mWeapon.setFireRate(fireRate);
             mWeapon.setMagazineSize(magazineSize);
-
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
         }
     }
 

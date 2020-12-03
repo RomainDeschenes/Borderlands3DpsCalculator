@@ -171,18 +171,26 @@ public class CameraActivity extends AppCompatActivity {
                                     }*/
                                     while (m.find()) {
                                         allMatches.add(m.group());  //for every match found previously with Matcher m, add the match to allMatches
-                                        Log.d("Match", allMatches.get(allMatches.size()-1));    //log each match by recording the value at the end of the allMatches list
+                                        //Log.d("Match", allMatches.get(allMatches.size()-1));    //log each match by recording the value at the end of the allMatches list
                                     }
                                     if(allMatches.size() == 6) {
-                                        if (validMatches(allMatches)){ //checks if the entries for damage, handling, and magazine size are integers
+                                        for (int j = 0; j < 6; j++) {
+                                            Log.d("Match", allMatches.get(j));
+                                        }
+                                        if (validMatches(allMatches)) { //checks if the entries for damage, handling, and magazine size are integers
                                             mCurrentWeapon = buildWeapon(allMatches);   //if allMatches has only six elements, then build mCurrentWeapon by passing in the list of matches
                                             updateWeaponTextViews();    //update app to display stats in real time
+                                            Log.d("Match Success", String.valueOf(allMatches.size()));
                                         }
                                     } else if (allMatches.size() == 5) {
+                                        for (int j = 0; j < 5; j++) {
+                                            Log.d("Match", allMatches.get(j));
+                                        }
                                         if (validMatches(allMatches)) { //checks if the entries for damage and magazine size are integers
                                             mCurrentWeapon = buildWeapon(allMatches);   //if allMatches has five elements, then build mCurrentWeapon by passing in the list of matches
                                             updateWeaponTextViews();    //update app to display stats in real time
                                         }
+                                        Log.d("Match Success", String.valueOf(allMatches.size()));
                                     } else {
                                         Log.d("allMatches size", String.valueOf(allMatches.size()));
                                     }
