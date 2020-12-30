@@ -95,7 +95,7 @@ public class CameraActivity extends AppCompatActivity {
 
         //Create the TextRecognizer
         final TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
-        accuracyIsPercent = false;
+        accuracyIsPercent = false;  //makes it so sequential launches of the detector will search for both 5 and 6 matches
 
         if (!textRecognizer.isOperational()) {
             Log.w("Camera", "Detector dependencies not loaded yet");
@@ -255,13 +255,23 @@ public class CameraActivity extends AppCompatActivity {
                 if(s.length() == 1) return false;
                 else continue;
             }*/
-            if(s.charAt(i) != 'x'){ //checks if the character encountered is not 'x'.  If not 'x', checks if character is valid for given base (base 10) numbering system.  Returns false if not a valid digit
-                if(Character.digit(s.charAt(i),radix) < 0) return false;
+            if (s.charAt(i) != 'x') { //checks if the character encountered is not 'x'.  If not 'x', checks if character is valid for given base (base 10) numbering system.  Returns false if not a valid digit
+                if (Character.digit(s.charAt(i), radix) < 0) return false;
             } else {
-                if(i == s.length()-1 || i == 0) return false;   //checks if the 'x' that was encountered is the last character in the string or is at the beginning.  If either of these are true, returns false
+                if (i == s.length() - 1 || i == 0)
+                    return false;   //checks if the 'x' that was encountered is the last character in the string or is at the beginning.  If either of these are true, returns false
             }
         }
         return true;
+    }
+
+    private static boolean contains_percent(List<String> allMatches) {  //Loops through matches checking if any consecutive matches contain a percentage symbol
+        for (int i = 1; i < allMatches.size(); i++) {
+            if (String.valueOf(allMatches.get(i)).contains("%") && String.valueOf(allMatches.get(i - 1)).contains("%")) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -269,14 +279,13 @@ public class CameraActivity extends AppCompatActivity {
         if (allMatches.size() == 6) {
             boolean damage_is_int = isInteger((String.valueOf(allMatches.get(0)).replaceAll("[^\\dx.]", "")));
             boolean accuracy_is_int = isInteger((String.valueOf(allMatches.get(1)).replaceAll("[^\\d.]", "")));  //accuracy is represented as an integer (whole-number percent sign) in BL3, so check for that
-            accuracyIsPercent = String.valueOf(allMatches.get(1)).contains("%");
             Log.d("Accuracy", "Is accuracy percent: " + accuracyIsPercent);
             boolean handling_is_int = isInteger((String.valueOf(allMatches.get(2)).replaceAll("[^\\d.]", "")));
             boolean magazine_size_is_int = isInteger((String.valueOf(allMatches.get(5)).replaceAll("[^\\d.]", "")));
             return damage_is_int && accuracy_is_int && handling_is_int && magazine_size_is_int;
         } else if (allMatches.size() == 5) {
+            accuracyIsPercent = contains_percent(allMatches);   //no longer searches for 5 matches if accuracy and handling are percentages (meaning weapon is from BL3)
             boolean damage_is_int = isInteger((String.valueOf(allMatches.get(0)).replaceAll("[^\\dx.]", "")));
-            //accuracyIsPercent = String.valueOf(allMatches.get(1)).contains("%");
             Log.d("Accuracy", "Is accuracy percent: " + accuracyIsPercent);
             boolean magazine_size_is_int = isInteger((String.valueOf(allMatches.get(4)).replaceAll("[^\\d.]", "")));
             return damage_is_int && magazine_size_is_int;
