@@ -11,10 +11,11 @@
     <string name="magazine_size">Taille du chargeur</string>
     <string name="shots_to_break">Tirs avant casse</string>
     <string name="time_to_empty_magazine">Temps pour vider le chargeur (en secondes)</string>
-    <string name="damage_per_second">Dégâts par seconde (rechargement inclus)</string>
+    <string name="damage_per_second">Dégâts par seconde</string>
     <string name="damage_per_magazine">Dégâts par chargeur</string>
     <string name="time_spent_shooting">Temps passé à tirer (en %)</string>
     <string name="time_spent_reloading">Temps passé à recharger (en %)</string>
     <string name="auto_mode">Scan automatique</string>
     <string name="pick_weapon">Choisir cette arme</string>
+    <string name="damage_per_second_sustained">Dégâts par seconde (rechargement inclus)</string>
 </resources>

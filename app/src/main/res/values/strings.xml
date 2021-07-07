@@ -10,10 +10,11 @@
     <string name="magazine_size">Magazine size</string>
     <string name="shots_to_break">Shots to break</string>
     <string name="time_to_empty_magazine">Time to empty magazine (in seconds)</string>
-    <string name="damage_per_second">Damage per second (reload included)</string>
+    <string name="damage_per_second">Damage per second</string>
     <string name="damage_per_magazine">Damage per magazine</string>
     <string name="time_spent_shooting">Percentage of time spent shooting</string>
     <string name="time_spent_reloading">Percentage of time spent reloading</string>
     <string name="auto_mode">Auto scan</string>
     <string name="pick_weapon">Pick this weapon</string>
+    <string name="damage_per_second_sustained">Damage per second sustained</string>
 </resources>

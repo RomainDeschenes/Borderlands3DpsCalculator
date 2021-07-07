@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.romaindeschenes.borderlands3dpscalculator">
+    package="com.borderlandsdpscalculator.borderlands3dpscalculator">
 
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -11,8 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.CameraActivity"></activity>
-        <activity android:name=".activities.MainActivity">
+        <activity android:name="com.borderlandsdpscalculator.borderlands3dpscalculator.activities.CameraActivity" />
+        <activity android:name="com.borderlandsdpscalculator.borderlands3dpscalculator.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

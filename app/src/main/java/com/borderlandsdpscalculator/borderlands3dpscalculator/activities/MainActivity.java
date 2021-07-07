@@ -1,4 +1,4 @@
-package com.romaindeschenes.borderlands3dpscalculator.activities;
+package com.borderlandsdpscalculator.borderlands3dpscalculator.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.romaindeschenes.borderlands3dpscalculator.R;
-import com.romaindeschenes.borderlands3dpscalculator.models.Weapon;
+import com.borderlandsdpscalculator.borderlands3dpscalculator.R;
+import com.borderlandsdpscalculator.borderlands3dpscalculator.models.Weapon;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     TextView mTextViewDamagePerMagazine;
     TextView mTextViewTimeSpentShooting;
     TextView mTextViewTimeSpentReloading;
+    TextView mTextViewDPSSustained;
 
     Button mButton;
 
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         mEditTextFireRate = findViewById(R.id.editTextFireRate);
         mEditTextMagazineSize = findViewById(R.id.editTextMagazineSize);
 
+        mTextViewDPSSustained = findViewById(R.id.textViewDamagePerSecondSustained);
         mTextViewTimeToEmptyMagazine = findViewById(R.id.textViewEmptyMagazine);
         mTextViewDamagePerSecond = findViewById(R.id.textViewDamagePerSecond);
         mTextViewDamagePerMagazine = findViewById(R.id.textViewDamagePerMagazine);
@@ -103,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateWeapon() {
-        try {
+        if (!mEditTextDamage.getText().toString().equals("") && !mEditTextReloadTime.getText().toString().equals("") && !mEditTextFireRate.getText().toString().equals("") && !mEditTextMagazineSize.getText().toString().equals("")) {
             int damage = Integer.parseInt(mEditTextDamage.getText().toString());
             float reloadTime = Float.parseFloat(mEditTextReloadTime.getText().toString());
             float fireRate = Float.parseFloat(mEditTextFireRate.getText().toString());
@@ -114,13 +116,14 @@ public class MainActivity extends AppCompatActivity {
             mWeapon.setReloadTime(reloadTime);
             mWeapon.setFireRate(fireRate);
             mWeapon.setMagazineSize(magazineSize);
-
-        } catch (NumberFormatException e) {
         }
     }
 
     protected void updateTextViews() {
-        mTextViewDamagePerSecond.setText(String.valueOf(mWeapon.getDamagePerSecond()));
+        double dpsSustained = Math.round(mWeapon.getDPSSustained() * 100.0) / 100.0;
+        double dps = Math.round(mWeapon.getDamagePerSecond() * 100.0) / 100.0;
+        mTextViewDPSSustained.setText(String.valueOf(dpsSustained));
+        mTextViewDamagePerSecond.setText(String.valueOf(dps));
         mTextViewTimeToEmptyMagazine.setText(String.valueOf(mWeapon.getTimeToEmptyMagazine()));
         mTextViewDamagePerMagazine.setText(String.valueOf(mWeapon.getDamagePerMagazine()));
         mTextViewTimeSpentReloading.setText(String.valueOf(mWeapon.getTimeSpentReloading()));

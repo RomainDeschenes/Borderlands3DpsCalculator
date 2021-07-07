@@ -1,4 +1,4 @@
-package com.romaindeschenes.borderlands3dpscalculator.models;
+package com.borderlandsdpscalculator.borderlands3dpscalculator.models;
 
 import java.io.Serializable;
 
@@ -22,12 +22,20 @@ public class Weapon implements Serializable {
                 + mHandling + ", reloadTime " + mReloadTime + ", fireRate" + mFireRate + ", magazineSize" + mMagazineSize;
     }
 
-    public Weapon(int damage, int accuracy, int handling, float reloadTime, float fireRate, int magazineSize) {
+    public Weapon(int damage, float accuracy, int handling, float reloadTime, float fireRate, int magazineSize) {
         mDamage = damage;
         mAccuracy = accuracy;
         mHandling = handling;
         mReloadTime = reloadTime;
         mFireRate = fireRate;
+        mMagazineSize = magazineSize;
+    }
+
+    public Weapon(int damage, float accuracy, float fireRate, float reloadTime, int magazineSize) {
+        mDamage = damage;
+        mAccuracy = accuracy;
+        mFireRate = fireRate;
+        mReloadTime = reloadTime;
         mMagazineSize = magazineSize;
     }
 
@@ -39,11 +47,9 @@ public class Weapon implements Serializable {
         this.mDamage = damage;
     }
 
-    public int getAccuracy() {
-        return mAccuracy;
-    }
+    public float getAccuracy() { return mAccuracy; }
 
-    public void setAccuracy(int accuracy) {
+    public void setAccuracy(float accuracy) {
         this.mAccuracy = accuracy;
     }
 
@@ -91,25 +97,10 @@ public class Weapon implements Serializable {
     }
 
     /**
-     * @return damage per second (over a 60 second period)
+     * @return damage per second
      */
-    public int getDamagePerSecond () {
-        float fireAndReloadTime = getTimeToEmptyMagazine() + mReloadTime;
-        if (getTimeToEmptyMagazine() <= 0 || mReloadTime <= 0) {
-            return 0;
-        }
-        float numberOfFullCycles = DAMAGE_PERIOD / fireAndReloadTime;
-
-        // Get numbers after the decimal point : unfinishedCycle
-        double unfinishedCyclePercentage = numberOfFullCycles - Math.floor(numberOfFullCycles);
-
-        // At which point in the cycle the reloading starts
-        double cycleReloadStart = getTimeToEmptyMagazine() / fireAndReloadTime;
-
-        // Min value because we do not want the time spent reloading at the end to matter
-        double unfinishedCycle = Math.min(unfinishedCyclePercentage, cycleReloadStart);
-
-        return (int)((numberOfFullCycles + unfinishedCycle) * getDamagePerMagazine()) / DAMAGE_PERIOD;
+    public float getDamagePerSecond () {
+       return mDamage * mFireRate;
     }
 
     public int getTimeSpentReloading() {
@@ -126,8 +117,12 @@ public class Weapon implements Serializable {
         return Math.round(getTimeToEmptyMagazine() * 100 / (mReloadTime + getTimeToEmptyMagazine()));
     }
 
+    public float getDPSSustained() {
+        return mDamage * mMagazineSize / (mMagazineSize / mFireRate + mReloadTime);
+    }
+
     private int mDamage;
-    private int mAccuracy;
+    private float mAccuracy;
     private int mHandling;
     private float mReloadTime;
     private float mFireRate;
